@@ -74,7 +74,10 @@ public class IntListTest {
         IntList C=null;
         IntList D=IntList.reverse(C);
         assertEquals(null,C);
-
+        IntList A1 = IntList.of(1, 2, 3, 5, 6, 7, 8);
+        IntList B1= IntList.reverse(A1);
+        IntList exp1 = IntList.of(8, 7, 6, 5, 3, 2, 1);
+        assertEquals(exp1,B1);
     }
     /** If you're running this from the command line, you'll need
       * to add a main method. See ArithmeticTest.java for an

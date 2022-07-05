@@ -1,4 +1,3 @@
-import javax.naming.InitialContext;
 import java.util.Formatter;
 
 /**
@@ -12,11 +11,11 @@ public class IntList {
     /**
      * First element of list.
      */
-    public int first;
+    private int first;
     /**
      * Remaining elements of list.
      */
-    public IntList rest;
+    private IntList rest;
 
     /**
      * A List with first FIRST0 and rest REST0.
@@ -82,15 +81,14 @@ public class IntList {
      */
 
     public static IntList dcatenate(IntList A, IntList B) {
-        //TODO:  fill in method
-        if(A==null){
+        if (A == null) {
             return B;
         }
-        IntList res=A;
-        while(A.rest!=null){
-            A=A.rest;
+        IntList res = A;
+        while (A.rest != null) {
+            A = A.rest;
         }
-        A.rest=B;
+        A.rest = B;
         return res;
     }
 
@@ -99,15 +97,14 @@ public class IntList {
      * * elements of B.  May NOT modify items of A.  Use 'new'.
      */
     public static IntList catenate(IntList A, IntList B) {
-        //TODO:  fill in method
         /** recursive method. */
-        if(A==null){
+        if (A == null) {
             return B;
         }
-       if(A.rest==null){
-           return new IntList(A.first,B);
-       }
-       return new IntList(A.first, catenate(A.rest, B));
+        if (A.rest == null) {
+            return new IntList(A.first, B);
+        }
+        return new IntList(A.first, catenate(A.rest, B));
        /**  iterative method.*/
 //        IntList res = new IntList(A.first, null);
 //        IntList ptr = res;
@@ -120,14 +117,13 @@ public class IntList {
 //        ptr.rest=B;
 //        return res;
     }
-    public static IntList reverse(IntList A){
-        if(A==null||A.rest==null){
+    public static IntList reverse(IntList A) {
+        if (A == null || A.rest == null) {
             return A;
         }
-        IntList next=A.rest;
-        A.rest=null;
-        return dcatenate(reverse(next),A);
-
+        IntList next = A.rest;
+        A.rest = null;
+        return dcatenate(reverse(next), A);
     }
 
 
