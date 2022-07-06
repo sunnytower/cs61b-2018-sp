@@ -17,10 +17,11 @@ public class ArrayDeque<T> {
             grow();
             items[nextFirst] = item;
             nextFirst = minusOne(nextFirst);
-        }
-        else {
-            items[nextLast] = item;
+            ++size;
+        } else {
+            items[nextFirst] = item;
             nextFirst = minusOne(nextFirst);
+            ++size;
         }
     }
     public void addLast(T item) {
@@ -28,10 +29,11 @@ public class ArrayDeque<T> {
             grow();
             items[nextLast] = item;
             nextLast = plusOne(nextLast, length);
-        }
-        else {
+            ++size;
+        } else {
             items[nextLast] = item;
             nextLast = plusOne(nextLast, length);
+            ++size;
         }
     }
     public boolean isEmpty() {
@@ -41,6 +43,9 @@ public class ArrayDeque<T> {
         return size;
     }
     public void printDeque() {
+        if (size == 0) {
+            return;
+        }
         int front = plusOne(nextFirst, length);
         while (front != nextLast) {
             System.out.print(items[front] + " ");
@@ -49,28 +54,38 @@ public class ArrayDeque<T> {
         System.out.println();
     }
     public T removeFirst() {
+        if (size == 0) {
+            return null;
+        }
         nextFirst = plusOne(nextFirst, length);
         T ret = items[nextFirst];
         size--;
-        if(timeToResize()){
+        if (length >= 16 && timeToResize()) {
             shrink();
         }
         return ret;
     }
     public T removeLast() {
+        if (size == 0) {
+            return null;
+        }
         nextLast = minusOne(nextLast);
         T ret = items[nextLast];
         size--;
-        if(timeToResize()){
+        if (length >= 16 && timeToResize()) {
             shrink();
         }
         return ret;
     }
     public T get(int index) {
-        if (index >= length) {
+        if (index >= size) {
             return null;
         }
-        return items[index];
+        int front = plusOne(nextFirst, length);
+        for (int i = 0; i < index; i++) {
+            front = plusOne(front, length);
+        }
+        return items[front];
     }
     private boolean timeToResize() {
         return (length / size) >= 4;
@@ -114,7 +129,10 @@ public class ArrayDeque<T> {
         }
         return index - 1;
     }
-    private int plusOne(int index, int length) {
-        return index + 1 % length;
+    private int plusOne(int index, int l) {
+        if (index + 1 == l) {
+            return 0;
+        }
+        return index + 1;
     }
 }

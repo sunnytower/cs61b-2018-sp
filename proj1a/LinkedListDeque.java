@@ -99,6 +99,5 @@ public class LinkedListDeque<T> {
             return null;
         }
         return getRecursiveHelper(sentinel.next, index);
-
     }
 }
