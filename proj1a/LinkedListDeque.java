@@ -10,11 +10,6 @@ public class LinkedListDeque<T> {
             item = i;
             next = n;
         }
-        /** only for sentinel */
-        Node(Node p, Node n) {
-            prev = p;
-            next = n;
-        }
     }
     /** sentinel and size
      *  sentinel == front, sentinel.prev == last. */
@@ -23,7 +18,7 @@ public class LinkedListDeque<T> {
 
     /** method */
     public LinkedListDeque() {
-        sentinel = new Node(null, null);
+        sentinel = new Node(null, null,null);
         sentinel.prev = sentinel;
         sentinel.next = sentinel;
         size = 0;
