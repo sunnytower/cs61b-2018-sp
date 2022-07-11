@@ -6,7 +6,7 @@ public class TestArrayDequeGold {
         StudentArrayDeque<Integer> buggy = new StudentArrayDeque<>();
         ArrayDequeSolution<Integer> correct = new ArrayDequeSolution<>();
         String message = "";
-        int testTimes = 3000;
+        int testTimes = 1000;
         for (int i = 0; i < testTimes; i++) {
             if (correct.size() == 0) {
                 int addNumber = StdRandom.uniform(1000);
