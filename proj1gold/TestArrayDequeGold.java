@@ -5,42 +5,52 @@ public class TestArrayDequeGold {
     public void testStudentArrayDeque() {
         StudentArrayDeque<Integer> buggy = new StudentArrayDeque<>();
         ArrayDequeSolution<Integer> correct = new ArrayDequeSolution<>();
-        final int testTimes = 300;
         String message = "";
-        for (int i=0; i < testTimes; i++) {
-            int x = StdRandom.uniform(4);
-            switch (x) {
-                case 0:
-                    int addNum = StdRandom.uniform(10);
-                    message += "addfirst(" + addNum + ")\n";
-                    buggy.addFirst(addNum);
-                    correct.addFirst(addNum);
-                    break;
+        int testTimes = 3000;
+        for (int i = 0; i < testTimes; i++) {
+            if (correct.size() == 0) {
+                int addNumber = StdRandom.uniform(1000);
+                int x = StdRandom.uniform(2);
+                if (x == 0) {
+                    message += "addFirst(" + addNumber + ")\n";
+                    buggy.addFirst(addNumber);
+                    correct.addFirst(addNumber);
+                } else {
+                    message += "addLast(" + addNumber + ")\n";
+                    buggy.addLast(addNumber);
+                    correct.addLast(addNumber);
+                }
+            } else {
+                int x = StdRandom.uniform(4);
+                int addNumber = StdRandom.uniform(1000);
+                Integer c = null;
+                Integer b = null;
+                switch (x) {
+                    case 0:
+                        message += "addFirst(" + addNumber + ")\n";
+                        buggy.addFirst(addNumber);
+                        correct.addFirst(addNumber);
+                        break;
+                    case 1:
+                        message += "addLast(" + addNumber + ")\n";
+                        buggy.addLast(addNumber);
+                        correct.addLast(addNumber);
+                        break;
+                    case 2:
+                        message += "removeFirst()\n";
+                        c = correct.removeFirst();
+                        b = buggy.removeFirst();
+                        assertEquals(message, c, b);
+                        break;
+                    case 3:
+                        message += "removeLast()\n";
+                        c = correct.removeLast();
+                        b = buggy.removeLast();
+                        assertEquals(message, c, b);
+                        break;
 
-                case 1:
-                    addNum = StdRandom.uniform(10);
-                    message += "addLast(" + addNum + ")\n";
-                    buggy.addLast(addNum);
-                    correct.addLast(addNum);
-                    break;
-                case 2:
-                    message += "removeFirst()\n";
-                    if (! buggy.isEmpty()) {
-                        Integer x1 = buggy.removeFirst();
-                        Integer x2 = correct.removeFirst();
-                        assertEquals(message, x2, x1);
-                    }
-                    break;
-
-                case 3:
-                    message += "removeLast()\n";
-                    if (! buggy.isEmpty()) {
-                        Integer x1 = buggy.removeLast();
-                        Integer x2 = correct.removeLast();
-                        assertEquals(message, x2, x1);
-                    }
+                }
             }
-
         }
     }
 }
