@@ -5,18 +5,18 @@ public class TestArrayDequeGold {
     public void testStudentArrayDeque() {
         StudentArrayDeque<Integer> buggy = new StudentArrayDeque<>();
         ArrayDequeSolution<Integer> correct = new ArrayDequeSolution<>();
-        String message = "";
+        StringBuilder mes = new StringBuilder("");
         int testTimes = 1000;
         for (int i = 0; i < testTimes; i++) {
             if (correct.size() == 0) {
                 int addNumber = StdRandom.uniform(1000);
                 int x = StdRandom.uniform(2);
                 if (x == 0) {
-                    message += "addFirst(" + addNumber + ")\n";
+                    mes.append("addFirst(" + addNumber + ")\n");
                     buggy.addFirst(addNumber);
                     correct.addFirst(addNumber);
                 } else {
-                    message += "addLast(" + addNumber + ")\n";
+                    mes.append("addLast(" + addNumber + ")\n");
                     buggy.addLast(addNumber);
                     correct.addLast(addNumber);
                 }
@@ -27,26 +27,26 @@ public class TestArrayDequeGold {
                 Integer b = null;
                 switch (x) {
                     case 0:
-                        message += "addFirst(" + addNumber + ")\n";
+                        mes.append("addFirst(" + addNumber + ")\n");
                         buggy.addFirst(addNumber);
                         correct.addFirst(addNumber);
                         break;
                     case 1:
-                        message += "addLast(" + addNumber + ")\n";
+                        mes.append("addLast(" + addNumber + ")\n");
                         buggy.addLast(addNumber);
                         correct.addLast(addNumber);
                         break;
                     case 2:
-                        message += "removeFirst()\n";
+                        mes.append("removeFirst()\n");
                         c = correct.removeFirst();
                         b = buggy.removeFirst();
-                        assertEquals(message, c, b);
+                        assertEquals(mes.toString(), c, b);
                         break;
                     case 3:
-                        message += "removeLast()\n";
+                        mes.append("removeLast()\n");
                         c = correct.removeLast();
                         b = buggy.removeLast();
-                        assertEquals(message, c, b);
+                        assertEquals(mes.toString(), c, b);
                         break;
 
                 }
