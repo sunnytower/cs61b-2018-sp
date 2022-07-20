@@ -37,13 +37,12 @@ public class GuitarString {
      */
     public void tic() {
         double first = buffer.dequeue();
-        double avg = (first + sample()) / 2 *DECAY;
+        double avg = (first + sample()) / 2 * DECAY;
         buffer.enqueue(avg);
     }
 
     /* Return the double at the front of the buffer. */
     public double sample() {
-        // TODO: Return the correct thing.
         return buffer.peek();
     }
 }
