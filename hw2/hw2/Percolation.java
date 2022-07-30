@@ -58,7 +58,7 @@ public class Percolation {
     }
     public boolean isFull(int row, int col) {
         checkOutOfBound(row, col);
-        return siteUnion.connected(topSite, xyTo1D(row, col));
+        return sites[row][col] && siteUnion.connected(topSite, xyTo1D(row, col));
     }
     public int numberOfOpenSites() {
         return numOpen;
