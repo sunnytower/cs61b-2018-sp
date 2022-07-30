@@ -9,6 +9,7 @@ public class Percolation {
     private int topSite;
     private int bottomSite;
     private WeightedQuickUnionUF siteUnion;
+    private WeightedQuickUnionUF backWashSol;
     public Percolation(int N) {
         if (N <= 0) {
             throw new IllegalArgumentException();
@@ -19,9 +20,11 @@ public class Percolation {
         bottomSite = N * N + 1;
         sites = new boolean[this.N][this.N];
         siteUnion = new WeightedQuickUnionUF(N * N + 2);
+        backWashSol = new WeightedQuickUnionUF(N * N + 1);
         for (int i = 0; i < N; ++i) {
             siteUnion.union(topSite, xyTo1D(0, i));
             siteUnion.union(bottomSite, xyTo1D(N - 1, i));
+            backWashSol.union(topSite,xyTo1D(0, i));
         }
     }
     private int xyTo1D(int y, int x) {
@@ -45,6 +48,7 @@ public class Percolation {
         }
         if (sites[neighborRow][neighborCol]) {
             siteUnion.union(xyTo1D(row, col), xyTo1D(neighborRow, neighborCol));
+            backWashSol.union(xyTo1D(row, col), xyTo1D(neighborRow, neighborCol));
         }
     }
     public boolean isOpen(int row, int col) {
@@ -58,7 +62,7 @@ public class Percolation {
     }
     public boolean isFull(int row, int col) {
         checkOutOfBound(row, col);
-        return sites[row][col] && siteUnion.connected(topSite, xyTo1D(row, col));
+        return sites[row][col] && backWashSol.connected(topSite, xyTo1D(row, col));
     }
     public int numberOfOpenSites() {
         return numOpen;
