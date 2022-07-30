@@ -24,7 +24,7 @@ public class Percolation {
         for (int i = 0; i < N; ++i) {
             siteUnion.union(topSite, xyTo1D(0, i));
             siteUnion.union(bottomSite, xyTo1D(N - 1, i));
-            backWashSol.union(topSite,xyTo1D(0, i));
+            backWashSol.union(topSite, xyTo1D(0, i));
         }
     }
     private int xyTo1D(int y, int x) {
@@ -68,6 +68,9 @@ public class Percolation {
         return numOpen;
     }
     public boolean percolates() {
+        if (numOpen == 0) {
+            return false;
+        }
         return siteUnion.connected(topSite, bottomSite);
     }
     public static void main(String[] args) {
