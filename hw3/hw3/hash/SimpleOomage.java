@@ -33,8 +33,7 @@ public class SimpleOomage implements Oomage {
         if (!USE_PERFECT_HASH) {
             return red + green + blue;
         } else {
-            final int magicNumber = 17;
-            return (red / 5) * magicNumber * magicNumber + (green / 5) * magicNumber + (blue / 5);
+            return Integer.hashCode(red / 5) * 17 + Integer.hashCode(green / 5) * 19 + Integer.hashCode(blue / 5);
         }
     }
 
