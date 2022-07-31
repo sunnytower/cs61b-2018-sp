@@ -33,7 +33,7 @@ public class SimpleOomage implements Oomage {
         if (!USE_PERFECT_HASH) {
             return red + green + blue;
         } else {
-            final int magicNumber = 31;
+            final int magicNumber = 17;
             return (red / 5) * magicNumber * magicNumber + (green / 5) * magicNumber + (blue / 5);
         }
     }
