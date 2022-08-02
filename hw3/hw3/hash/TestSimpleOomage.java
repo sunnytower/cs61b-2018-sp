@@ -24,8 +24,8 @@ public class TestSimpleOomage {
 
     @Test
     public void testHashCodePerfect() {
-        SimpleOomage ooA = new SimpleOomage(5, 10, 20);
-        SimpleOomage ooA2 = new SimpleOomage(10, 5, 20);
+        SimpleOomage ooA = new SimpleOomage(0, 0, 95);
+        SimpleOomage ooA2 = new SimpleOomage(0, 5, 0);
         HashSet<SimpleOomage> hashSet = new HashSet<SimpleOomage>();
         hashSet.add(ooA);
         assertTrue(!hashSet.contains(ooA2));
