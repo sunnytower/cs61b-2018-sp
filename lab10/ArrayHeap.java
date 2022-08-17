@@ -27,24 +27,21 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      * Returns the index of the node to the left of the node at i.
      */
     private static int leftIndex(int i) {
-        /* TODO: Your code here! */
-        return 0;
+        return  2 * i;
     }
 
     /**
      * Returns the index of the node to the right of the node at i.
      */
     private static int rightIndex(int i) {
-        /* TODO: Your code here! */
-        return 0;
+        return 2 * i + 1;
     }
 
     /**
      * Returns the index of the node that is the parent of the node at i.
      */
     private static int parentIndex(int i) {
-        /* TODO: Your code here! */
-        return 0;
+        return i / 2;
     }
 
     /**
@@ -106,9 +103,12 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
     private void swim(int index) {
         // Throws an exception if index is invalid. DON'T CHANGE THIS LINE.
         validateSinkSwimArg(index);
-
-        /** TODO: Your code here. */
-        return;
+        int parent = parentIndex(index);
+        while (inBounds(parent) && greater(parent, index)) {
+            swap(parent, index);
+            index = parent;
+            parent = parentIndex(index);
+        }
     }
 
     /**
@@ -117,11 +117,25 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
     private void sink(int index) {
         // Throws an exception if index is invalid. DON'T CHANGE THIS LINE.
         validateSinkSwimArg(index);
-
-        /** TODO: Your code here. */
-        return;
+        int child = leftIndex(index);
+        while (inBounds(child)) {
+            if (inBounds(child + 1) && greater(child, child + 1)) {
+                child = child + 1;
+            }
+            if (!greater(index, child)) {
+                break;
+            }
+            swap(index, child);
+            index = child;
+            child = leftIndex(index);
+        }
     }
-
+    private boolean greater(int i, int j) {
+        return contents[i].myPriority > contents[j].myPriority;
+    }
+    private boolean greater(double priority, int index) {
+        return priority > contents[index].myPriority;
+    }
     /**
      * Inserts an item with the given priority value. This is enqueue, or offer.
      * To implement this method, add it to the end of the ArrayList, then swim it.
@@ -132,8 +146,9 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         if (size + 1 == contents.length) {
             resize(contents.length * 2);
         }
-
-        /* TODO: Your code here! */
+        size++;
+        contents[size] = new Node(item, priority);
+        swim(size);
     }
 
     /**
@@ -142,8 +157,10 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      */
     @Override
     public T peek() {
-        /* TODO: Your code here! */
-        return null;
+        if (size == 0) {
+            return null;
+        }
+        return contents[1].myItem;
     }
 
     /**
@@ -157,8 +174,18 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      */
     @Override
     public T removeMin() {
-        /* TODO: Your code here! */
-        return null;
+        if (size == 0) {
+            return null;
+        }
+        T res = peek();
+        swap(1, size);
+        size--;
+        contents[size + 1] = null;
+        if (size == 0) {
+            return res;
+        }
+        sink(1);
+        return res;
     }
 
     /**
@@ -180,10 +207,30 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      */
     @Override
     public void changePriority(T item, double priority) {
-        /* TODO: Your code here! */
-        return;
+        changePriorityHelper(1, item, priority);
     }
-
+    public void changePriorityHelper(int index, T item, double priority) {
+        if (!inBounds(index)) {
+            return;
+        }
+        if (contents[index].myItem.equals(item)) {
+            if (contents[index].myPriority > priority) {
+                contents[index].myPriority = priority;
+                swim(index);
+            } else {
+                contents[index].myPriority = priority;
+                sink(index);
+            }
+        }
+        int left = leftIndex(index);
+        int right = rightIndex(index);
+        if (inBounds(left) && greater(priority, left)) {
+            changePriorityHelper(left, item, priority);
+        }
+        if (inBounds(right) && greater(priority, right)) {
+            changePriorityHelper(right, item, priority);
+        }
+    }
     /**
      * Prints out the heap sideways. Provided for you.
      */
