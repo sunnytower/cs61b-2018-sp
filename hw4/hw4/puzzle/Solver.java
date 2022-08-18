@@ -2,6 +2,7 @@ package hw4.puzzle;
 
 import edu.princeton.cs.algs4.MinPQ;
 
+import java.beans.beancontext.BeanContextServiceAvailableEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,8 +33,8 @@ public class Solver {
         }
     }
 
-    MinPQ<SearchNode> pq;
-    int moves;
+    private MinPQ<SearchNode> pq;
+    private int moves;
     private List<WorldState> solution;
 
     public Solver(WorldState initial) {
@@ -55,9 +56,9 @@ public class Solver {
     private void solverHelper() {
         while (!pq.isEmpty()) {
             SearchNode curr = pq.delMin();
-            solution.add(curr.ws);
             if (curr.ws.isGoal()) {
                 moves = curr.moves;
+                getSolution(curr);
                 return;
             }
             for (WorldState ws : curr.ws.neighbors()) {
@@ -66,6 +67,12 @@ public class Solver {
                     pq.insert(new SearchNode(ws, curr.moves + 1, curr));
                 }
             }
+        }
+    }
+    private void getSolution(SearchNode node) {
+        while (node !=null) {
+            solution.add(node.ws);
+            node = node.prev;
         }
     }
 }
