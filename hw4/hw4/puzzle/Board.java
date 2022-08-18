@@ -2,10 +2,11 @@ package hw4.puzzle;
 
 import edu.princeton.cs.algs4.Queue;
 
-public class Board implements WorldState{
+public class Board implements WorldState {
     private int[][] tiles;
     private int size;
     private final int BLANK = 0;
+
     public Board(int[][] tiles) {
         this.size = tiles[0].length;
         this.tiles = new int[size][];
@@ -13,20 +14,23 @@ public class Board implements WorldState{
             this.tiles[i] = tiles[i].clone();
         }
     }
+
     private boolean isInBound(int index) {
-        return index >= 0 && index <= size -1 ;
+        return index >= 0 && index <= size - 1;
     }
+
     public int tileAt(int i, int j) {
         if (isInBound(i) && isInBound(j)) {
             return tiles[i][j];
-        }
-        else {
+        } else {
             throw new IndexOutOfBoundsException();
         }
     }
+
     public int size() {
         return size;
     }
+
     public int manhattan() {
         int res = 0;
         for (int i = 0; i < size; ++i) {
@@ -43,6 +47,7 @@ public class Board implements WorldState{
         }
         return res;
     }
+
     public int hamming() {
         int res = 0;
         for (int i = 0; i < size; ++i) {
@@ -58,6 +63,7 @@ public class Board implements WorldState{
         }
         return res;
     }
+
     @Override
     public Iterable<WorldState> neighbors() {
         Queue<WorldState> neighbors = new Queue<>();
@@ -92,22 +98,35 @@ public class Board implements WorldState{
         }
         return neighbors;
     }
+
     @Override
     public int estimatedDistanceToGoal() {
         return manhattan();
     }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
     @Override
     public boolean equals(Object y) {
         if (y == null) {
             return false;
         }
+        if (y == this) {
+            return true;
+        }
         if (y instanceof Board) {
             Board other = (Board) y;
+            if (other.size != this.size) {
+                return false;
+            }
             for (int i = 0; i < size; ++i) {
                 for (int j = 0; j < size; ++j) {
-                        if (tiles[i][j] != other.tiles[i][j]) {
-                            return false;
-                        }
+                    if (tiles[i][j] != other.tiles[i][j]) {
+                        return false;
+                    }
                 }
             }
         } else {
@@ -115,8 +134,11 @@ public class Board implements WorldState{
         }
         return true;
     }
-    /** Returns the string representation of the board.
-      * Uncomment this method. */
+
+    /**
+     * Returns the string representation of the board.
+     * Uncomment this method.
+     */
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
@@ -124,7 +146,7 @@ public class Board implements WorldState{
         s.append(N + "\n");
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
-                s.append(String.format("%2d ", tileAt(i,j)));
+                s.append(String.format("%2d ", tileAt(i, j)));
             }
             s.append("\n");
         }
