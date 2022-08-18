@@ -2,8 +2,8 @@ package hw4.puzzle;
 
 import edu.princeton.cs.algs4.MinPQ;
 
-import java.beans.beancontext.BeanContextServiceAvailableEvent;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Solver {
@@ -70,9 +70,10 @@ public class Solver {
         }
     }
     private void getSolution(SearchNode node) {
-        while (node !=null) {
+        while (node != null) {
             solution.add(node.ws);
             node = node.prev;
         }
+        Collections.reverse(solution);
     }
 }
