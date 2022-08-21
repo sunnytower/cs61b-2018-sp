@@ -70,10 +70,10 @@ public class QuickSort {
         Queue<Item> greater = new Queue<>();
         Queue<Item> equal = new Queue<>();
         partition(items, pivot, less, equal, greater);
-        Queue<Item> leftSort = quickSort(less);
-        Queue<Item> rightSort = quickSort(greater);
-        Queue<Item> res = catenate(leftSort, equal);
-        res = catenate(res, rightSort);
+        less = quickSort(less);
+        greater = quickSort(greater);
+        Queue<Item> res = catenate(less, equal);
+        res = catenate(res, greater);
         return res;
     }
     public static void main(String[] args) {
