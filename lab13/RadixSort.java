@@ -1,3 +1,7 @@
+import org.junit.Test;
+
+import java.util.PriorityQueue;
+
 /**
  * Class for doing Radix sort
  *
@@ -5,6 +9,7 @@
  *
  */
 public class RadixSort {
+    private static final int size = 256;
     /**
      * Does LSD radix sort on the passed in array with the following restrictions:
      * The array can only have ASCII Strings (sequence of 1 byte characters)
@@ -16,8 +21,22 @@ public class RadixSort {
      * @return String[] the sorted array
      */
     public static String[] sort(String[] asciis) {
-        // TODO: Implement LSD Sort
-        return null;
+        int maxDigit = 0;
+        for (String s : asciis) {
+            maxDigit = Math.max(s.length(), maxDigit);
+        }
+        String[] res = asciis.clone();
+//        for (String s : res) {
+//            int diff = maxDigit - s.length();
+//            while (diff > 0) {
+//                s = "0" + s;
+//                diff--;
+//            }
+//        }
+        for (int i = maxDigit - 1; i >= 0; --i) {
+            sortHelperLSD(res, i);
+        }
+        return res;
     }
 
     /**
@@ -27,10 +46,45 @@ public class RadixSort {
      * @param index The position to sort the Strings on.
      */
     private static void sortHelperLSD(String[] asciis, int index) {
-        // Optional LSD helper method for required LSD radix sort
-        return;
-    }
+        //size = 256 to hold all the asciis.
+        int[] counts = new int[size + 1];
+        for (String s : asciis) {
+            int c = findValidIndex(index, s);
+            counts[c]++;
+        }
 
+        int[] starts = new int[size + 1];
+        int pos = 0;
+        for (int i = 0; i < size + 1; ++i) {
+            starts[i] = pos;
+            pos += counts[i];
+        }
+
+        String[] sorted = new String[asciis.length];
+        for (int i = 0; i < asciis.length; ++i) {
+            String s = asciis[i];
+            int c = findValidIndex(index, s);
+            int place = starts[c];
+            sorted[place] = s;
+            starts[c]++;
+        }
+        for (int i = 0; i < asciis.length; ++i) {
+            asciis[i] = sorted[i];
+        }
+    }
+    private static int findValidIndex(int index, String item) {
+        if (index < item.length()) {
+            return item.charAt(index) + 1;
+        }
+        return 0;
+    }
+    public static void main(String[] args) {
+        String[] s1 = new String[] {"356", "112", "904", "294", "209", "820", "394", "810"};
+        String[] res = sort(s1);
+        for (String s : res) {
+            System.out.println(s + " ");
+        }
+    }
     /**
      * MSD radix sort helper function that recursively calls itself to achieve the sorted array.
      * Destructive method that changes the passed in array, asciis.
